@@ -38,10 +38,28 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
-// Respond not found to all the wrong routes
 app.use(function(req, res, next){
-  res.status(404);
-  res.type('txt').send('Not found');
+  var queryPath = req.path.slice(1);
+  var dateObj = {unix: null, natural: null};
+  var date = null;
+
+  var months = ['January','February','March','April','May','June'
+    ,'July','August','September','October','November','December'];
+
+  var milliseconds = Number(queryPath);
+  
+  if(isNaN(milliseconds)){
+    date = new Date(decodeURI(queryPath));
+  }else {
+    date = new Date(milliseconds*1000);
+  }
+
+  if(date != 'Invalid Date'){
+    var dateObj = {unix: date.getTime()/1000, natural: months[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()};
+  }
+
+  res.end(JSON.stringify(dateObj));
+
 });
 
 // Error Middleware

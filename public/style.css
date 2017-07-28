@@ -17,6 +17,10 @@ body {
 	margin-top: 60px;
 }
 
+blockquote{
+	text-align: left;
+}
+
 ol {
 	list-style-position: inside;
 }
